@@ -1,0 +1,58 @@
+<!<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Foo.DS Food Delivery Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html, body {
+            margin: 0;
+            background-color: #333;
+            color: #ddd;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            text-align: center;
+            padding-top: 1em;
+            font-size: 1.5em;
+        }
+        
+        button,input {
+            border-radius: 1em;
+            border: 0;
+            margin: 0.5ex;
+            font-size: 0.75em;
+            padding: 0.5em;
+            border: 1px solid #111;
+        }
+
+        h4, h6,h7 {
+             margin: 1em;
+             padding: 0;
+         }
+    </style>
+</head>
+<body>
+    <h1>Fleet of One Delivery Service</h1>
+    <h4>Start driving for yourself, today!</h4>
+    <h6>Send a text message to (517) 878-5108</h6>
+    <h7>or</h7>
+    <h6>Receive a text message: <input placeholder="(555) 867-5309" id="phone_number"><button id="send">Send</button></h6>
+    <script>
+        var button = document.getElementById('send');
+        button.addEventListener("click", function(){
+            var phoneNumber = document.getElementById('phone_number').value;
+            fetch('https://cinereous-alpaca-7556.twil.io/send', {
+                method: 'POST',
+                body: { phoneNumber: phoneNumber }
+            })
+            .then(function(){
+                button.style.backgroundColor = "#0a0";
+            })
+            .catch(function(err){
+                button.style.backgroundColor = "#a00";
+                console.log(err);
+            });
+        })
+    </script>
+</body>
+</html>
