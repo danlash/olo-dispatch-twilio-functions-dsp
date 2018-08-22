@@ -25,7 +25,7 @@
             border: 1px solid #111;
         }
 
-        h4, h6,h7 {
+        h6,h7 {
              margin: 1em;
              padding: 0;
          }
@@ -34,24 +34,25 @@
 <body>
     <h1>Fleet of One Delivery Service</h1>
     <h4>Start driving for yourself, today!</h4>
+    
     <h6>Send a text message to (517) 878-5108</h6>
     <h7>or</h7>
     <h6>Receive a text message: <input placeholder="(555) 867-5309" id="phone_number"><button id="send">Send</button></h6>
+
     <script>
         var button = document.getElementById('send');
         button.addEventListener("click", function(){
+
             var phoneNumber = document.getElementById('phone_number').value;
-            fetch('https://cinereous-alpaca-7556.twil.io/send', {
-                method: 'POST',
-                body: { phoneNumber: phoneNumber }
-            })
-            .then(function(){
-                button.style.backgroundColor = "#0a0";
-            })
-            .catch(function(err){
-                button.style.backgroundColor = "#a00";
-                console.log(err);
-            });
+
+            fetch('https://cinereous-alpaca-7556.twil.io/send?phoneNumber=' + phoneNumber)
+                .then(function(){
+                    button.style.backgroundColor = "#0a0";
+                })
+                .catch(function(err){
+                    button.style.backgroundColor = "#a00";
+                    console.log(err);
+                });
         })
     </script>
 </body>
