@@ -1,6 +1,6 @@
 exports.handler = function(context, event, callback) {
 	const client = context.getTwilioClient();
-    const body = 'Start driving by sending a text command:\n"Drive  <zip>,<zip>  <fee>"' 
+    const body = 'Welcome to foo.DS! Start driving by sending a text command:\n"Drive  <zip>,<zip>  <fee>".';
 
     client.messages.create({
         body: body,
