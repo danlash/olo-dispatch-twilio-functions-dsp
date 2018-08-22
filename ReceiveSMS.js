@@ -103,28 +103,28 @@ function respond(message) {
         case 'drive':
             return getDriver(phoneNumber)
                     .then(driver => {
-                        if (driver) return respond(`Already driving! Fee:${driver.fee} Zip Codes:${driver.zip_codes}`);
+                        if (driver) return respond(`You are already driving! Your fee is $${driver.fee} and you service zip codes ${driver.zip_codes}. Send the command "Done" to stop driving.`);
                         
                         const zips = messageParts[1];
-                        if (!zips) return respond('Zip codes not specified.');
+                        if (!zips) return respond('Can\'t start driving, the zip codes you service were not specified.');
                         
                         const fee = messageParts[2];
-                        if (!fee) return respond('Fee not specified.');
+                        if (!fee) return respond('Can\'t start driving, the fee you charge was not specified.');
 
                         return createDriver(phoneNumber, zips, fee)
-                                .then(() => respond(`Driving!`));
+                                .then(() => respond(`You are now driving! Send the command "Done" to stop driving.`));
                     });
         break;
         
         case 'done':
             return deleteDriver(phoneNumber)
-                    .then(() => respond('Done!'));
+                    .then(() => respond('You are done driving... for now!'));
         break;
 
         case 'pickup':
             return getDriver(phoneNumber)
                     .then(driver => {
-                        if (!driver.current_delivery_id) return respond('Not currently delivering!');
+                        if (!driver.current_delivery_id) return respond('Sorry, you are not currently driving! Send the command\n"Drive  <zip>,<zip>  <fee>"\nto start driving.');
 
                         return sendUpdate(driver.current_delivery_id, 'InTransit')
                                 .then(() => respond('Ok.'));
@@ -134,7 +134,7 @@ function respond(message) {
         case 'dropoff':
             return getDriver(phoneNumber)
                     .then(driver => {
-                        if (!driver.current_delivery_id) return respond('Not currently delivering!');
+                        if (!driver.current_delivery_id) return respond('Sorry, you are not currently driving! Send the command\n"Drive  <zip>,<zip>  <fee>"\nto start driving.');
 
                         return sendUpdate(driver.current_delivery_id, 'Delivered')
                                 .then(() => {
@@ -145,6 +145,6 @@ function respond(message) {
         break;
         
         default:
-            return respond('Command not found.');
+            return respond('Ready to start driving for yourself? Send the command\n"Drive  <zip>,<zip>  <fee>"\nto start driving.');
     }
 };
